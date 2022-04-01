@@ -1,6 +1,7 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import models.Id;
@@ -11,7 +12,11 @@ public class IdController {
     Id myId;
 
     public ArrayList<Id> getIds() {
-        return null;
+        ArrayList<Id> ids = new ArrayList<>();
+        ServerController serverController = ServerController.shared();
+        ids.addAll(serverController.idGet());
+        System.out.println(ids);
+        return ids;
     }
 
     public Id postId(Id id) {

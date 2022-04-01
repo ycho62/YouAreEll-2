@@ -13,7 +13,9 @@ public class YouAreEll {
     public static void main(String[] args) {
         // hmm: is this Dependency Injection?
         ServerController serverController = ServerController.shared();
-        serverController.idGet();}
+        serverController.idGet();
+        serverController.messageGet();
+    }
 //        YouAreEll urlhandler = new YouAreEll(
 //            new TransactionController(
 //                new MessageController(), new IdController()
