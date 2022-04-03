@@ -1,21 +1,67 @@
 package controllers;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import models.Id;
 import models.Message;
+import org.json.simple.JSONArray;
 
 public class MessageController {
 
-    private HashSet<Message> messagesSeen;
+    public static HashSet<Message> messagesSeen = new HashSet<>();
     // why a HashSet??
 
+    private   MessageController(){
+        ServerController serverController = ServerController.shared();
+        JSONArray messages = serverController.messageGet();
+        for(int i =0; i < messages.size(); i++) {
+            Object object = messages.get(i);
+            String string = object.toString();
+            String[] messageList = string.split(",");
+            String toID = messageList[0].substring(8);
+            String sequence = messageList[1].substring(11);
+            String message = messageList[2].substring(10);
+            String fromID = messageList[3].substring(9);
+            String timestamp = messageList[4].substring(12);
+            Message messageobject = new Message(message, fromID, toID, timestamp, sequence);
+            messagesSeen.add(messageobject);
+
+        }
+    }
+    private static MessageController msc = new MessageController();
+    public static MessageController shared() {return msc;}
+
     public ArrayList<Message> getMessages() {
-        return null;
+        Message[] array = messagesSeen.toArray(new Message[0]);
+        ArrayList<Message> messages = new ArrayList<>();
+        for (int i=0; i < array.length; i++) {
+            messages.add(array[i]);
+        }
+        ArrayList<Message> copy = (ArrayList<Message>) messages.stream().sorted(Comparator.comparing(Message::getTimestamp)).collect(Collectors.toList());
+        ArrayList<Message> mostRecent = new ArrayList<>();
+
+        for(int i= copy.size()-1; i > copy.size()-21; i--){
+            mostRecent.add(copy.get(i));
+        }
+        mostRecent .forEach(System.out::println);
+        return mostRecent;
     }
     public ArrayList<Message> getMessagesForId(Id Id) {
-        return null;
+        Message[] array = messagesSeen.toArray(new Message[0]);
+        ArrayList<Message> messages = new ArrayList<>();
+        for (int i=0; i < array.length; i++) {
+            if(array[i].getToId().equals(Id))
+            messages.add(array[i]);
+        }
+        ArrayList<Message> copy = (ArrayList<Message>) messages.stream().sorted(Comparator.comparing(Message::getTimestamp)).collect(Collectors.toList());
+        ArrayList<Message> mostRecent = new ArrayList<>();
+
+        for(int i= copy.size()-1; i > copy.size()-21; i--){
+            mostRecent.add(copy.get(i));
+        }
+        mostRecent .forEach(System.out::println);
+        return mostRecent;
     }
     public Message getMessageForSequence(String seq) {
         return null;

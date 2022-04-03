@@ -7,7 +7,7 @@ import java.util.HashMap;
 import models.Id;
 
 public class IdController {
-    private HashMap<String, Id> allIds;
+    private HashMap<String, Id> allIds = new HashMap<>();
 
     Id myId;
 

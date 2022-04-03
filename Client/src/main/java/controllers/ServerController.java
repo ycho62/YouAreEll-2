@@ -29,8 +29,7 @@ public class ServerController<JsonString> {
 
     public JSONArray idGet() {
         BufferedReader reader;
-        String line;
-        StringBuffer response = new StringBuffer();
+
         JSONParser jsonParser = new JSONParser();
         JSONArray ids = null;
         try {
@@ -67,12 +66,11 @@ public class ServerController<JsonString> {
     }
     public JSONArray messageGet() {
         BufferedReader reader;
-        String line;
-        StringBuffer response = new StringBuffer();
+
         JSONParser jsonParser = new JSONParser();
         JSONArray messages = null;
         try {
-            URL url = new URL("http://zipcode.rocks:8085/ids");
+            URL url = new URL("http://zipcode.rocks:8085/messages");
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setConnectTimeout(5000);
