@@ -21,12 +21,13 @@ public class YouAreEll {
 
         System.out.println(MessageController.shared().getMessages());
 
-        Id id = (Id) ids.get(0);
-        for (int j = 0; j < messageController.getMessagesForId(id).size(); j++) { // TODO - figure out how to make IDs so we can test
-            System.out.println(messageController.getMessagesForId(id).get(j).getTimestamp());
+//        Id id = (Id) ids.get(0);
+//        for (int j = 0; j < messageController.getMessagesForId(id).size(); j++) { // TODO - figure out how to make IDs so we can test
+//            System.out.println(messageController.getMessagesForId(id).get(j).getTimestamp());
+//        }
+        System.out.println(IdController.shared());
         }
-        }
-    }
+//    }
 //        YouAreEll urlhandler = new YouAreEll(
 //            new TransactionController(
 //                new MessageController(), new IdController()
