@@ -1,6 +1,8 @@
 package models;
 
-/* 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+/*
  * POJO for an Message object
  *
  *   {
@@ -14,11 +16,15 @@ package models;
 *
  */
 public class Message implements Comparable {
-
+    @JsonProperty("messages")
     private String message = "";
+    @JsonProperty("toid")
     private String toId = "";
+    @JsonProperty("fromid")
     private String fromId = "";
+    @JsonProperty("timestamp")
     private String timestamp = "";
+    @JsonProperty("sequence")
     private String seqId = "";
 
     public Message (String message, String fromId, String toId, String timestamp, String seqId) {
@@ -29,10 +35,11 @@ public class Message implements Comparable {
         this.seqId= seqId;
     }
 
+    public Message(){} // nullary for object mapper to map on to the above fields. Needs to be blank
 
     @Override
     public String toString() {
-        return "to: " + this.toId + "\nfrom: "+ this.fromId + "\n" + this.message + "\n----\n";
+        return "sequence: "+ this.seqId + "\ntimestamp: " + this.timestamp + "to: " + this.toId + "\nfrom: "+ this.fromId + "\n" + this.message + "\n----\n";
     }
 
     public int compareTo(Object o) {
