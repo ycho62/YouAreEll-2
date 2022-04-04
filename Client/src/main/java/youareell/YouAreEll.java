@@ -7,6 +7,7 @@ import models.Message;
 import views.IdTextView;
 import views.MessageTextView;
 
+import java.io.IOException;
 import java.util.List;
 
 public class YouAreEll {
@@ -21,7 +22,7 @@ public class YouAreEll {
         this.tt = new TransactionController(messageController, idController);
     }
 
-    public static void main(String[] args) throws JsonProcessingException {
+    public static void main(String[] args) throws IOException {
         // hmm: is this Dependency Injection?
 
 
@@ -34,7 +35,7 @@ public class YouAreEll {
         System.out.println(urlhandler.MakeURLCall("/post"));
     }
 
-    public String MakeURLCall(String info) throws JsonProcessingException {
+    public String MakeURLCall(String info) throws IOException {
         if(info.equals("/ids")){
             return get_ids();
         }else if (info.equals("/messages")){
@@ -55,18 +56,18 @@ public class YouAreEll {
 //        return tt.makecall("/ids", "GET", "");
     }
 
-    public String get_messages() {
+    public String get_messages() throws JsonProcessingException {
         List<Message> message = tt.getMessages();
         String show = "";
         for (Message i : message) {
             MessageTextView view = new MessageTextView();
             show += view.toString(i) + "\n";
         }
-        return "New Id Created";
+        return show;
 //        return MakeURLCall("/messages", "GET", "");
     }
 
-    public String post_Ids() {
+    public String post_Ids() throws IOException {
         IdController idController = new IdController();
         idController.postId(new Id());
         return "New Id Created";

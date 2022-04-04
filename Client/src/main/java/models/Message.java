@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 *
  */
 public class Message implements Comparable {
-    @JsonProperty("messages")
+    @JsonProperty("message")
     private String message = "";
     @JsonProperty("toid")
     private String toId = "";

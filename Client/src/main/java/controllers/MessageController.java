@@ -19,7 +19,7 @@ public class MessageController {
     public MessageController() throws JsonProcessingException {
         String messages = String.valueOf(serverController.messageGet());
         ObjectMapper objectMapper = new ObjectMapper();
-        messagesSeen = objectMapper.readValue(messages, new TypeReference<HashSet<Message>>() {
+        messagesSeen = objectMapper.readValue(messages, new TypeReference<>() {
         });
     }
 
@@ -46,7 +46,8 @@ public class MessageController {
         for (Message m : messagesSeen) {
             messages.add(m);
         }
-        ArrayList<Message> copy = (ArrayList<Message>) messages.stream().sorted(Comparator.comparing(Message::getTimestamp)).collect(Collectors.toList());
+        ArrayList<Message> copy = (ArrayList<Message>) messages.stream().sorted(Comparator.comparing
+                (Message::getTimestamp)).collect(Collectors.toList());
         ArrayList<Message> mostRecent = new ArrayList<>();
 
         for(int i= copy.size()-1; i > copy.size()-21; i--){
@@ -74,24 +75,23 @@ public class MessageController {
     public ArrayList<Message> getMessagesForId(Id Id) {
         ArrayList<Message> messages = new ArrayList<>();
         for (Message m : messagesSeen) {
-            if (m.getToId().equals(Id.getGithub())) {
+            if (m.getFromId().equals(Id.getGithub())) {
                 messages.add(m);
             }
-            ArrayList<Message> copy = (ArrayList<Message>) messages.stream().sorted(Comparator.comparing(Message::getTimestamp)).collect(Collectors.toList());
+        }
+            ArrayList<Message> copy = (ArrayList<Message>) messages.stream().sorted
+                    (Comparator.comparing(Message::getTimestamp)).collect(Collectors.toList());
             ArrayList<Message> mostRecent = new ArrayList<>();
+
             if (copy.size() >= 20) {
                 for (int i = copy.size() - 1; i > copy.size() - 21; i--) {
                     mostRecent.add(copy.get(i));
                 }
-            } else if (copy.size() < 20) {
-                for (Message o : copy) {
-                    mostRecent.add(o);
-                }
+            } else {
+                mostRecent.addAll(copy);
             }
 
-
-        }
-        return messages;
+        return mostRecent;
     }
 //        Message[] array = messagesSeen.toArray(new Message[0]);
 //        ArrayList<Message> messages = new ArrayList<>();

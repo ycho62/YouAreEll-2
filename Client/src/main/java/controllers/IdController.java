@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -18,11 +19,11 @@ public class IdController {
 
     public IdController(){}
 
-    public ArrayList<Id> getIds()  throws JsonProcessingException {
+    public ArrayList<Id> getIds() throws JsonProcessingException {
        ServerController serverController = ServerController.shared();
         String ids = String.valueOf(serverController.idGet());
         ObjectMapper objectMapper = new ObjectMapper();
-        ArrayList<Id> listIds = objectMapper.readValue(ids, new TypeReference<ArrayList<Id>>() {
+        ArrayList<Id> listIds = objectMapper.readValue(ids, new TypeReference<>() {
         });
         for (Id i: listIds) {
             allIds.put(i.getGithub(), i);
@@ -48,7 +49,9 @@ public class IdController {
 //        return ids;
 //    }
 
-    public Id postId(Id id) {
+    public Id postId(Id id) throws IOException {
+        id = new Id("Yun", "99");
+        ServerController.shared().idPost(id);
         // create json from id
         // call server, get json result Or error
         // result json to Id obj
